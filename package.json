@@ -8,7 +8,6 @@
     "build": "cross-env REACT_APP_ENV=dev umi build",
     "build:qa": "cross-env REACT_APP_ENV=qa umi build",
     "build:prod": "cross-env REACT_APP_ENV=prod umi build",
-    "build:template": "cross-env REACT_APP_ENV=tp umi build",
     "postbuild": "rimraf ./dist/**/*.js.map",
     "postbuild:qa": "npm run postbuild",
     "postbuild:prod": "npm run postbuild",
