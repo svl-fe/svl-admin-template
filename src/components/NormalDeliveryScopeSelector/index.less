@@ -1,0 +1,94 @@
+.selectorView {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 36px;
+  padding: 0 8px;
+  background-color: #fff;
+  border: 1px solid #dcdee0;
+  border-radius: 2px 2px 2px 2px;
+  cursor: pointer;
+}
+.bottomWrapContainer {
+  flex-direction: column;
+  height: 530px;
+  margin-top: -1px;
+  background: #fff;
+  border: 1px solid #dcdee0;
+  border-radius: 0;
+  opacity: 1;
+}
+.bottomContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px;
+  border-top: 1px solid #dcdee0;
+  .totalText {
+    color: #323233;
+    font-size: 14px;
+  }
+}
+.topContainer {
+  display: flex;
+  flex: 1;
+  height: calc(100% - 56px);
+  .topLeftContainer {
+    width: 114px;
+    height: 100%;
+    border-right: 1px solid #dcdee0;
+    :global {
+      .ant-tree-switcher {
+        width: 0;
+      }
+      .ant-tree-treenode {
+        width: 100%;
+      }
+      .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+        width: 100%;
+      }
+      .ant-tree .ant-tree-node-content-wrapper {
+        width: 100%;
+      }
+    }
+  }
+  .topRightContainer {
+    width: calc(100% - 114px);
+    height: 100%;
+    padding: 16px 16px 0 16px;
+  }
+  .wrapScrollView {
+    height: 444px;
+    margin-top: 4px;
+    overflow: auto;
+  }
+}
+.checkAllContainer {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+.itemRow {
+  cursor: pointer;
+}
+.equipmentItemContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 12px;
+}
+.wrapTagContainer {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+.tagView {
+  margin-bottom: 8px;
+}
+.placeholderContainer {
+  margin-bottom: 4px;
+  color: #c8c9cc;
+}

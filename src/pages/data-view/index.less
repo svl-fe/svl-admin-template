@@ -1,0 +1,198 @@
+.container {
+  position: relative;
+  :global(.svl-info-card-head) {
+    margin-bottom: 24px;
+  }
+  .totalInfo {
+    padding: 8px 48px;
+    background: #fff;
+    border-radius: 4px;
+  }
+  .datePart {
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px 0;
+  }
+
+  .chartGrid {
+    display: flex;
+  }
+  .mainPart {
+    width: 75%;
+    padding-right: 16px;
+  }
+  .rightPart {
+    width: 25%;
+    min-width: 281px;
+  }
+  .chartMain {
+    height: 319px;
+  }
+  .chartRisk {
+    height: 319px;
+    :global(.svl-info-card-head) {
+      margin-bottom: 14px;
+    }
+  }
+  .chartChannel {
+    height: 400px;
+  }
+  .chartFile {
+    height: 238px;
+  }
+
+  // 头部数据总信息 start
+  .bgSuccess {
+    padding: 14px;
+    color: rgba(42, 157, 143, 1);
+    background-color: rgba(42, 157, 143, 0.1);
+  }
+  .bgFail {
+    padding: 14px;
+    color: rgba(232, 106, 93, 1);
+    background-color: rgba(232, 106, 93, 0.1);
+  }
+  .bgDisable {
+    padding: 14px;
+    color: rgba(150, 151, 153, 1);
+    background-color: rgba(242, 243, 245, 1);
+  }
+  // 头部数据总信息 end
+
+  // 图表tooltip start
+  .tooltip {
+    min-width: 80px;
+    padding: 12px 0;
+    // background: #FFF;
+    // box-shadow: 0 2px 8px 1px rgba(200, 201, 204, 0.5);
+    .title {
+      margin-bottom: 12px;
+      color: #969799;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    .tooltipItem {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 72px;
+      & + .tooltipItem {
+        margin-top: 8px;
+      }
+    }
+    .tooltipName {
+      display: flex;
+      align-items: center;
+      height: 18px;
+      margin-right: 16px;
+      padding: 0 5px;
+      line-height: 18px;
+      border-radius: 9px;
+    }
+    .img {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-right: 5px;
+    }
+    .tooltipValue {
+      color: #323233;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .tooltipUnit {
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    .jinji {
+      color: rgba(232, 106, 93, 1);
+      background-color: rgba(232, 106, 93, 0.1);
+    }
+    .high {
+      color: rgba(244, 162, 97, 1);
+      background-color: rgba(244, 162, 97, 0.1);
+    }
+    .middle {
+      color: rgba(255, 199, 89, 1);
+      background-color: rgba(255, 199, 89, 0.1);
+    }
+    .low {
+      color: rgba(42, 157, 143, 1);
+      background-color: rgba(42, 157, 143, 0.1);
+    }
+  }
+  // 图表tooltip end
+  // 图表风险占比tooltip start
+  .tooltipRisk {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    color: #323233;
+    font-weight: 400;
+    font-size: 12px;
+    .circle {
+      width: 7px;
+      height: 7px;
+      margin-right: 4px;
+      border-radius: 3.5px;
+    }
+    .riskInfoItem + .riskInfoItem {
+      margin-left: 16px;
+    }
+    .riskValue {
+      margin-left: 8px;
+      font-weight: bold;
+    }
+  }
+  // 图表风险占比tooltip end
+
+  // 图表风险占比legend start
+  .legend {
+    display: flex;
+    // align-items: center;
+    flex-wrap: wrap;
+    margin-top: 14px;
+
+    .legendItem {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 50%;
+      padding-right: 12px;
+      color: #323233;
+      font-weight: 400;
+      &:nth-child(1),
+      &:nth-child(2) {
+        margin-bottom: 2px;
+      }
+    }
+    .legendItem:nth-child(2n) {
+      justify-content: flex-start;
+      padding-left: 12px;
+    }
+    .marker {
+      width: 7px;
+      height: 7px;
+      margin-right: 8px;
+      border-radius: 50%;
+    }
+    .name {
+      width: 28px;
+      font-size: 12px;
+    }
+    .value {
+      font-weight: 500;
+    }
+  }
+  // 图表风险占比legend end
+  .chartUnit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #969799;
+    font-weight: 400;
+    font-size: 12px;
+  }
+}

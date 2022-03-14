@@ -1,0 +1,26 @@
+# Dependency directory
+node_modules
+.DS_Store
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons
+build/Release
+.dockerignore
+Dockerfile
+*docker-compose*
+
+# logs
+logs
+*.log
+
+# Runtime data
+.idea
+.vscode
+*.suo
+pids
+*.pid
+.git
+.hg
+.svn

@@ -1,0 +1,97 @@
+.button {
+  min-width: 96px;
+  height: 40px;
+}
+.normalDeleverContainer {
+  margin-top: 16px;
+}
+.commonDeliveryWrap {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.infoLabel {
+  display: inline-block;
+  width: 80px;
+  color: #969799;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: PingFang SC-Regular, PingFang SC;
+  text-align: left;
+}
+.tagContainer {
+  margin-right: 6px;
+  margin-bottom: 6px;
+  padding: 0 6px;
+  background: #f2f3f5;
+}
+.hidden {
+  display: none;
+}
+.tag {
+  display: inline-block;
+  min-width: 64px;
+  height: 24px;
+  margin-right: 12px;
+  margin-bottom: 12px;
+  padding: 2px 4px;
+  color: #2a9d8f;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: center;
+  background: rgba(42, 157, 143, 0.1);
+}
+
+.detailItem + .detailItem {
+  margin-top: 12px;
+}
+.editIcon {
+  margin-left: 6px;
+  color: #c8c9cc;
+}
+
+.cardContainer:hover {
+  outline: 1px solid #2a9d8f;
+}
+.infoCardTitleContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.saveButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 24px;
+}
+.cardContainer:hover .editIcon {
+  color: #2a9d8f;
+}
+.editRuleDrawer {
+  :global {
+    .ant-drawer-header {
+      background: #f7f8fa !important;
+    }
+    .ant-drawer-content {
+      background: #f7f8fa !important;
+    }
+    .ant-drawer-body {
+      padding: 2px 24px;
+    }
+  }
+  .steps {
+    margin-bottom: 24px;
+  }
+  .button {
+    min-width: 96px;
+    height: 40px;
+  }
+  :global(.svl-info-card) {
+    margin-bottom: 0;
+  }
+  :global(.svl-info-card + .svl-info-card) {
+    margin-top: 16px;
+  }
+}

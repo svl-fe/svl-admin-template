@@ -1,0 +1,65 @@
+// 图表tooltip start
+.tooltip {
+  min-width: 80px;
+  padding: 12px 0;
+  // background: #FFF;
+  // box-shadow: 0 2px 8px 1px rgba(200, 201, 204, 0.5);
+  .title {
+    margin-bottom: 12px;
+    color: #969799;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .tooltipItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 72px;
+    & + .tooltipItem {
+      margin-top: 8px;
+    }
+  }
+  .tooltipName {
+    display: flex;
+    align-items: center;
+    height: 18px;
+    margin-right: 16px;
+    padding: 0 5px;
+    line-height: 18px;
+    border-radius: 9px;
+  }
+  .img {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+  }
+  .tooltipValue {
+    color: #323233;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .tooltipUnit {
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .jinji {
+    color: rgba(232, 106, 93, 1);
+    background-color: rgba(232, 106, 93, 0.1);
+  }
+  .high {
+    color: rgba(244, 162, 97, 1);
+    background-color: rgba(244, 162, 97, 0.1);
+  }
+  .middle {
+    color: rgba(255, 199, 89, 1);
+    background-color: rgba(255, 199, 89, 0.1);
+  }
+  .low {
+    color: rgba(42, 157, 143, 1);
+    background-color: rgba(42, 157, 143, 0.1);
+  }
+}
+// 图表tooltip end

@@ -1,0 +1,7 @@
+[defaults]
+project=svl-admin-template
+url=http://8.130.10.180:9000/
+org=sentry
+
+[auth]
+token=cae2eef0a36c4440a807e1dce18eb75e83c996002eb0463a8d4015c0b420cfd3

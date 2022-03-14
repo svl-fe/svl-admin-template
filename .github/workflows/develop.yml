@@ -1,0 +1,58 @@
+name: deploy for develop
+
+on:
+  push:
+    branches:
+      # 只针对 develop 分支
+      - 'develop'
+    paths:
+      - '.github/workflows/*'
+      - 'src/**'
+      - 'config/**'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.13.x'
+          registry-url: 'https://registry.npmjs.org'
+
+        # 设置临时 ssh key，用于登录服务器拉取代码
+      - name: set ssh key
+        # 将远程服务器的 RSA 添加至 Git Actions 的 secrets 中
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{secrets.SSH_RSA}}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          # 查看远程服务器的公钥，并将公钥内容保存到known_hosts(ssh命令默认使用的文件是/.ssh/known_hosts)
+          # ssh-keyscan 端口号要设置正确，否则会构建失败!!!
+          ssh-keyscan "${{secrets.SERVER}}" >> ~/.ssh/known_hosts
+
+        # 部署(登录远程服务器，拉取代码，构建镜像)
+      - name: deploy
+        # 在进行部署操作前，要先登录服务器，完成下列操作：
+        # 操作一：将远程服务器的 RSA 存储至 GIT 全局设置中
+        # 操作二：创建 /home/svl-admin-template 目录
+        run: |
+          ssh "${{secrets.USER}}"@${{secrets.SERVER}} '
+            cd /home/svl-admin-template/;
+            git checkout develop;
+            # 重新下载最新代码
+            git pull origin develop;
+            # 解决找不到 NPM 问题
+            export NVM_DIR=~/.nvm;
+            source ~/.nvm/nvm.sh;
+            yarn && yarn build:template
+            # 启动 docker-compose, 与 docker-compose.yml 中的 service 名字保持一致
+            # 记得在 /etc/cron.daily 写定时脚本清理无用镜像
+            docker-compose build svl-admin-template;
+            docker-compose up -d;
+          '
+      # 删除临时 ssh key
+      - name: delete ssh key
+        run: rm -rf ~/.ssh/id_rsa

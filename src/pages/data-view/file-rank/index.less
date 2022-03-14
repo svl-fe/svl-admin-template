@@ -1,0 +1,32 @@
+@import '../../../theme.less';
+
+.container {
+  .fileItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 17px;
+    color: @text-color;
+    font-weight: 400;
+    font-size: 12px;
+
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3) {
+      color: @primary-color;
+    }
+    & + .fileItem {
+      margin-top: 16px;
+    }
+    .index {
+      font-size: 16px;
+    }
+    .name {
+      flex: 1;
+      padding-left: 12px;
+    }
+    .times {
+      color: #969799;
+    }
+  }
+}

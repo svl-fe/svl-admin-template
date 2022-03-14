@@ -1,0 +1,38 @@
+@import '../../theme.less';
+
+.levelTag {
+  padding: 0 4px;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: PingFang SC-Regular, PingFang SC;
+  line-height: 20px;
+  border-radius: 28px;
+  transition: all 300ms ease-in-out;
+  &.hover {
+    cursor: pointer;
+  }
+  &.level1 {
+    background-color: fade(@error-color, 10%);
+    &:hover {
+      background-color: fade(@error-color, 20%);
+    }
+  }
+  &.level2 {
+    background-color: fade(@warning-color, 10%);
+    &:hover {
+      background-color: fade(@warning-color, 20%);
+    }
+  }
+  &.level3 {
+    background-color: fade(@warning-color-2, 10%);
+    &:hover {
+      background-color: fade(@warning-color-2, 20%);
+    }
+  }
+  &.level4 {
+    background-color: fade(@success-color, 10%);
+    &:hover {
+      background-color: fade(@success-color, 20%);
+    }
+  }
+}

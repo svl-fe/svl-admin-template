@@ -1,0 +1,15 @@
+version: '3'
+
+# 服务
+services:
+  svl-admin-template:
+    build:
+      context: .
+      # 使用此 dockerfile 文件来构建，必须指定构建路径
+      dockerfile: Dockerfile
+
+    image: svl-admin-template_image
+    container_name: svl-admin-template_container
+    ports:
+      # 将容器内部的服务端口 80 映射到宿主机的 8082 端口上
+      - 8082:8082

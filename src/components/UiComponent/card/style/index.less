@@ -1,0 +1,33 @@
+@import '../../theme.less';
+
+.svl-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .cardItem {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+  }
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 32px;
+    font-size: 20px;
+    border-radius: 12px;
+  }
+  .label {
+    color: @svl-second-text-color;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .value {
+    color: @svl-text-color;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 42px;
+  }
+}

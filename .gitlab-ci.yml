@@ -1,0 +1,192 @@
+# 测试集成
+image: docker:stable
+
+variables:
+  QA_SERVER: $QA_SERVER
+  QA_USER: $QA_USER
+  PROD_SERVER: $PROD_SERVER
+  PROD_USER: $PROD_USER
+  SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
+  ROBOT_URL: https://open.feishu.cn/open-apis/bot/v2/hook/e2451a7b-07c7-4c43-a5ff-22ad0b482e58
+
+services:
+  # Docker in Docker
+  - docker:dind
+
+before_script:
+  - docker info
+
+stages:
+  - build
+  - deploy
+
+# 开发环境构建
+build:
+  stage: build
+  image: node:16.14.0
+  timeout: 1 hour
+  tags:
+    - dk_fe
+  before_script:
+    - echo "====Start===="
+    - node -v
+    - npm -v
+    - yarn
+  # 缓存时的上传也会非常耗时
+  # cache:
+  #   key:
+  #     files:
+  #       # 根据文件计算SHA校验和
+  #       - package.json
+  #   paths:
+  #     # 指定需要被缓存的文件路径
+  #     - node_modules/
+  script:
+    - echo "====开始构建===="
+    - yarn --verbose
+    - yarn run build
+    - echo "====结束构建===="
+  only:
+    # 只有dev开头的分支才会执行
+    - /^dev.*$/
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - dist # 发送dist目录下的所有文件
+
+# QA环境构建
+qa_build:
+  stage: build
+  image: node:16.14.0
+  timeout: 1 hour
+  tags:
+    - dk_fe
+  before_script:
+    - echo "====Start===="
+    - node -v
+    - npm -v
+    - yarn -v
+  cache:
+    key:
+      files:
+        # 根据文件计算SHA校验和
+        - package.json
+    paths:
+      # 指定需要被缓存的文件路径
+      - node_modules/
+  script:
+    - echo "====开始构建===="
+    - yarn --verbose
+    - yarn run build:qa
+    - echo "====结束构建===="
+  only:
+    # 只有qa开头的分支才会执行
+    - /^qa.*$/
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - dist # 发送dist目录下的所有文件
+
+# 线上环境构建
+prod_build:
+  stage: build
+  image: node:16.14.0
+  timeout: 1 hour
+  tags:
+    - dk_fe
+  cache:
+    key:
+      files:
+        # 根据文件计算SHA校验和
+        - package.json
+    paths:
+      # 指定需要被缓存的文件路径
+      - node_modules/
+  script:
+    - echo "====开始构建===="
+    - yarn --verbose
+    - yarn run build:prod
+    - echo "====结束构建===="
+  only:
+    - tags
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist # 发送dist目录下的所有文件
+
+# 开发环境部署
+deploy:
+  # image: docker
+  stage: deploy
+  tags:
+    - dk_fe
+  variables:
+    ROBOT_DATA: '{"msg_type":"text","content":{"text":"前端开发环境部署成功，请开发同学回归功能：http://8.130.168.60:4080/"}}'
+  before_script:
+    # 解决找不到 curl 命令问题
+    - apk add --update curl && rm -rf /var/cache/apk/*
+  script:
+    - if [ $(docker ps -aq --filter name=qzh-fe-container) ]; then docker rm -f qzh-fe-container;fi
+    # 删除旧镜像，创建新镜像
+    - docker rmi svl-admin-template_image
+    - docker build -t svl-admin-template_image .
+    - docker run -d -p 4080:4080 --name qzh-fe-container svl-admin-template_image
+    - curl -X POST -H "Content-Type:application/json" -d "$ROBOT_DATA" "$ROBOT_URL"
+  only:
+    # 只有dev开头的分支才会执行
+    - /^dev.*$/
+
+# 测试环境部署
+qa_deploy:
+  stage: deploy
+  tags:
+    - dk_fe
+  variables:
+    ROBOT_DATA: '{"msg_type":"text","content":{"text":"前端测试环境部署成功，请测试同学回归功能：http://39.101.73.213"}}'
+  before_script:
+    # 若没有 ssh-agent，则安装 SSH
+    - 'which ssh-agent || (apt-get update -y && apt-get install openssh-client -y)'
+    # 运行 ssh-agent，添加私钥，以便无密码登录服务器
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan "$QA_SERVER" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    # 解决找不到 curl 命令问题
+    - apk add --update curl && rm -rf /var/cache/apk/*
+  script:
+    - echo "====QA部署===="
+    - ssh "$QA_USER"@"$QA_SERVER" 'rm -rf /opt/openedr/compose/armor/gateway/nginx/data/front/qzh/*'
+    - scp -r ./dist/* "$QA_USER"@"$QA_SERVER":/opt/openedr/compose/armor/gateway/nginx/data/front/qzh/
+    - curl -X POST -H "Content-Type:application/json" -d "$ROBOT_DATA" "$ROBOT_URL"
+  only:
+    - qa
+
+# 线上环境部署
+prod_deploy:
+  stage: deploy
+  tags:
+    - dk_fe
+  variables:
+    ROBOT_DATA: '{"msg_type":"text","content":{"text":"前端线上环境部署成功，请产品同学回归功能：http://8.130.12.217/"}}'
+  before_script:
+    # 若没有 ssh-agent，则安装 SSH
+    - 'which ssh-agent || (apt-get update -y && apt-get install openssh-client -y)'
+    # 运行 ssh-agent，添加私钥，以便无密码登录服务器
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan "$PROD_SERVER" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+      # 解决找不到 curl 命令问题
+    - apk add --update curl && rm -rf /var/cache/apk/*
+  script:
+    - echo "====线上部署===="
+    - ssh "$PROD_USER"@"$PROD_SERVER" 'rm -rf /opt/openedr/compose/armor/gateway/nginx/data/front/qzh/*'
+    - scp -r ./dist/* "$PROD_USER"@"$PROD_SERVER":/opt/openedr/compose/armor/gateway/nginx/data/front/qzh/
+    - curl -X POST -H "Content-Type:application/json" -d "$ROBOT_DATA" "$ROBOT_URL"
+  only:
+    # - main
+    - tags

@@ -1,0 +1,33 @@
+@import '../theme.less';
+
+.svl-table {
+  position: relative;
+
+  .ant-table {
+    color: @svl-text-color;
+  }
+
+  .ant-pagination {
+    .ant-pagination-total-text {
+      position: absolute;
+      left: 0;
+    }
+  }
+
+  // 已经全局theme修改
+  // :global(.ant-table-tbody .ant-table-row) {
+  //   &:hover {
+  //     background: @svl-table-row-hover-bg !important;
+  //   }
+  // }
+
+  // :global(.ant-table-tbody .ant-table-row-selected) {
+  //   &:hover {
+  //     background: @svl-table-selected-row-hover-bg !important;
+  //   }
+  // }
+
+  &-total {
+    color: @svl-primary-color;
+  }
+}
