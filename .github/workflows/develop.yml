@@ -47,7 +47,7 @@ jobs:
             # 解决找不到 NPM 问题
             export NVM_DIR=~/.nvm;
             source ~/.nvm/nvm.sh;
-            yarn && yarn build:template
+            yarn && yarn build
             # 启动 docker-compose, 与 docker-compose.yml 中的 service 名字保持一致
             # 记得在 /etc/cron.daily 写定时脚本清理无用镜像
             docker-compose build svl-admin-template;
